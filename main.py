@@ -5,6 +5,7 @@ import pygame as pg
 from settings import *
 from shader_program import ShaderProgram
 from scene import Scene
+from player import Player
 
 
 class VoxelEngine:
@@ -16,7 +17,7 @@ class VoxelEngine:
                                     pg.GL_CONTEXT_PROFILE_CORE)
         pg.display.gl_set_attribute(pg.GL_DEPTH_SIZE, 24)
 
-        pg.display.set_mode(WIN_RES, pg.OPENGL | pg.DOUBLEBUF)
+        pg.display.set_mode(WIN_RES, pg.OPENGL | pg.DOUBLEBUF, vsync=VSYNC)
         self.ctx = mgl.create_context()
         self.ctx.enable(mgl.DEPTH_TEST | mgl.CULL_FACE | mgl.BLEND)
         self.ctx.gc_mode = 'auto'
@@ -25,17 +26,23 @@ class VoxelEngine:
         self.delta_time = 0
         self.time = 0
 
+        pg.event.set_grab(True)
+        pg.mouse.set_visible(False)
+
         self.is_running = True
 
         self.shader_program = None
         self.scene = None
+        self.player = None
         self.on_init()
 
     def on_init(self):
+        self.player = Player(self)
         self.shader_program = ShaderProgram(self)
         self.scene = Scene(self)
 
     def update(self):
+        self.player.update()
         self.shader_program.update()
         self.scene.update()
 
