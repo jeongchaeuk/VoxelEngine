@@ -1,11 +1,23 @@
-from numba import njit
-import numpy as np
 import glm
 import math
 
 # resolution
 WIN_RES = glm.vec2(1600, 900)
 VSYNC = 1
+
+# chunk
+CHUNK_SIZE = 32
+H_CHUNK_SIZE = CHUNK_SIZE // 2
+CHUNK_AREA = CHUNK_SIZE * CHUNK_SIZE
+CHUNK_VOL = CHUNK_AREA * CHUNK_SIZE
+
+# voxel's face id
+TOP = 0
+BOTTOM = 1
+RIGHT = 2
+LEFT = 3
+BACK = 4
+FRONT = 5
 
 # camera
 ASPECT_RATIO = WIN_RES.x / WIN_RES.y
@@ -19,7 +31,7 @@ PITCH_MAX = glm.radians(89)
 # player
 PLAYER_SPEED = 0.005
 PLAYER_ROT_SPEED = 0.003  # rotation speed
-PLAYER_POS = glm.vec3(0, 0, 1)
+PLAYER_POS = glm.vec3(H_CHUNK_SIZE, CHUNK_SIZE, 1.5 * CHUNK_SIZE)
 MOUSE_SENSITIVITY = 0.002
 
 # colors
