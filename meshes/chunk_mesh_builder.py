@@ -31,7 +31,7 @@ def build_chunk_mesh(chunk_voxels, format_size):
     """
     # Volxel's visible face is 3 (top, front, right).
     # Each face has 2 triangles, each triangle has 3 vertices.
-    NUM_VOXEL_VERTICES = 18
+    NUM_VOXEL_VERTICES = 18  # why not 36?
     # Vertex attributes's format: x, y, z, voxel_id, face_id
     ARRAY_SIZE = CHUNK_VOL * NUM_VOXEL_VERTICES * format_size
     vertex_data = np.empty(ARRAY_SIZE, dtype='uint8')
@@ -99,4 +99,4 @@ def build_chunk_mesh(chunk_voxels, format_size):
                     vertices = (v0, v2, v1, v0, v3, v2)
                     index = add_data(vertex_data, index, *vertices)
 
-    return vertex_data[:index]
+    return vertex_data[:index]  # [:index + 1]
